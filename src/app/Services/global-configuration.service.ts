@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
+import { decrypt } from '../encryption';
 import { CallCredentials } from '../Models/callCredentials.model';
 
 @Injectable({
@@ -31,8 +32,8 @@ export class GlobalConfigurationService {
      loadStorage() {
       this.getJSON().subscribe(data => {
         const credentialData = new CallCredentials();
-        credentialData.client_id = data['client_id'];
-        credentialData.client_secret = data['client_secret'];
+        credentialData.client_id = decrypt(data['enc_c_id']);
+        credentialData.client_secret = decrypt(data['enc_c_sec']);
         credentialData.audience = data['audience'];
         credentialData.grant_type = data['grant_type'];
         localStorage.setItem("body", JSON.stringify(credentialData));

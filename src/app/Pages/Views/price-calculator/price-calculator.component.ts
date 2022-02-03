@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { decrypt, encrypt } from '../../../encryption';
 import { InputRequest } from '../../../Models/inputRequest.model';
 import { GlobalConfigurationService } from '../../../Services/global-configuration.service';
 import { PriceCalculatorService } from '../../../Services/price-calculator/price-calculator.service';
@@ -71,7 +72,6 @@ export class PriceCalculatorComponent implements OnInit {
 
     this.globalConfigurationService.GetToken().subscribe(
       data => {
-        
                 const tokenData = JSON.stringify(data);
                 const access_token = JSON.parse(tokenData)['access_token'];
                 const token_type = JSON.parse(tokenData)['token_type'];
