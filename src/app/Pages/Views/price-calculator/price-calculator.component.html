@@ -1,0 +1,29 @@
+<ngx-spinner></ngx-spinner>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>Price Calculator</mat-card-title><br/>
+      </mat-card-header>
+      <form class="example-form" [formGroup]="priceCalculatorForm" >
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <mat-label>Height</mat-label>
+            <input matInput placeholder="Height" type="number" formControlName="height">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Width</mat-label>
+            <input matInput placeholder="Width" type="number" formControlName="width">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Depth</mat-label>
+            <input matInput placeholder="Depth" type="number" formControlName="depth">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Weight</mat-label>
+            <input matInput placeholder="Weight" type="number" formControlName="weight">
+          </mat-form-field>
+        </mat-card-content>
+        <button mat-stroked-button color="primary" type="submit" (click)="submit()" class="btn-block">Calculate</button>
+      </form>
+    </mat-card>
+  </div>
