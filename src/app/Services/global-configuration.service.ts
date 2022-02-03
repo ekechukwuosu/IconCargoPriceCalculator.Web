@@ -1,13 +1,14 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
+import { CallCredentials } from '../Models/callCredentials.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalConfigurationService {
-
+  private _jsonURL = 'assets/auth.json';
   constructor(private http: HttpClient) { }
   readonly API_URL = 'https://localhost:44336/api/';
 
@@ -18,7 +19,7 @@ export class GlobalConfigurationService {
     readonly get_token_url = 'https://dev-opcncvs8.us.auth0.com/oauth/token';
 
     GetToken() {
-      const body = JSON.stringify(this.getCallCredentials());
+      const body = localStorage.getItem("body");
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type':  'application/json'
@@ -27,9 +28,20 @@ export class GlobalConfigurationService {
             return this.http.post(this.get_token_url, body , httpOptions)
             .pipe(catchError(this.errorHandler))
       }
-     getCallCredentials() {
-       let data = { client_id: 'zUs49O3k3Hvm13u7ho83WkhaEg9xJvDm', client_secret: 'zNsMuHzScNVJ0v-tWR4-DQbnaiA8w2e9a5mXzo3PdyT_-mXiR4HqmcZa0dCRJlUL', audience: 'https://IconCargoCalculator.com', grant_type: 'client_credentials' };
-         return data;
+     loadStorage() {
+      this.getJSON().subscribe(data => {
+        const credentialData = new CallCredentials();
+        credentialData.client_id = data['client_id'];
+        credentialData.client_secret = data['client_secret'];
+        credentialData.audience = data['audience'];
+        credentialData.grant_type = data['grant_type'];
+        localStorage.setItem("body", JSON.stringify(credentialData));
+        return credentialData;
+       });
+        
+      }
+      public getJSON(): Observable<any> {
+        return this.http.get(this._jsonURL);
       }
       private errorHandler(error: HttpErrorResponse) {
         

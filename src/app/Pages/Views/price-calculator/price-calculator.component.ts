@@ -42,6 +42,7 @@ export class PriceCalculatorComponent implements OnInit {
 			])
 			],
 		});
+  this.initStorage();
   }
  
   submit(){
@@ -98,10 +99,14 @@ export class PriceCalculatorComponent implements OnInit {
                 console.log("error ="+ error);
               });
   }
-  public showSpinner(): void {
+ showSpinner(): void {
     this.spinnerService.show();
   }
-  public hideSpinner(): void {
+ hideSpinner(): void {
     this.spinnerService.hide();
+  }
+ initStorage(){
+    localStorage.clear();
+    this.globalConfigurationService.loadStorage();
   }
 }
